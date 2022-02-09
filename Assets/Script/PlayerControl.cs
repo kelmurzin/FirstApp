@@ -5,10 +5,11 @@ using UnityEngine.AI;
 
 public class PlayerControl : MonoBehaviour
 {
+    [SerializeField] private Joystick _joystick;
+
     private Camera _camera;
-    private NavMeshAgent _agent;
-    public Joystick joystick;
-    public bool Active;
+    private NavMeshAgent _agent;    
+    private bool _active;
 
     private void Start()
     {
@@ -20,7 +21,7 @@ public class PlayerControl : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {           
-            if (Active)
+            if (_active)
             {
                 RaycastHit hit;
                 if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit))
@@ -31,12 +32,12 @@ public class PlayerControl : MonoBehaviour
             }
              
         }        
-        if (joystick.Horizontal != 0)
+        if (_joystick.Horizontal != 0)
         {
-            Active = false;
-            _agent.velocity = new Vector3(joystick.Horizontal, 0)* _agent.speed;
+            _active = false;
+            _agent.velocity = new Vector3(_joystick.Horizontal, 0,_joystick.Vertical)* _agent.speed;
             _agent.ResetPath();
         }
-        else Active = true;
+        else _active = true;
     }
 }
